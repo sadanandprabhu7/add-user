@@ -7,11 +7,17 @@ import ErrorModel from "../UI/ErrorModel";
 const AddUser = (props) => {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
+  const [error, setError] = useState();
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0)
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({ title: "invalid input", message: "please enter valid data" });
       return;
-    if (+enteredAge < 1) return;
+    }
+    if (+enteredAge < 1) {
+      setError({ title: "invalid age", message: "please enter valid age > 0" });
+      return;
+    }
     props.onAddUser(enteredUsername, enteredAge);
     setEnteredUsername("");
     setEnteredAge("");
@@ -22,10 +28,18 @@ const AddUser = (props) => {
   const ageHandler = (event) => {
     setEnteredAge(event.target.value);
   };
-
+  const errorHandler = () => {
+    setError(null);
+  };
   return (
     <div>
-      <ErrorModel title="title" message="message"></ErrorModel>
+      {error && (
+        <ErrorModel
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        ></ErrorModel>
+      )}
       <Card className={classes.input}>
         <form onSubmit={addUserHandler}>
           <label htmlFor="username">username</label>
