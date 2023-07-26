@@ -1,9 +1,9 @@
 import "./App.css";
-import User from "./components/Users/AddUser";
+import AddUser from "./components/Users/AddUser";
 function App() {
   return (
     <div>
-      <User />
+      <AddUser />
     </div>
   );
 }
